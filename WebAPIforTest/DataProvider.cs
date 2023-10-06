@@ -2,13 +2,14 @@
 using System.Data;
 using WebAPIforTest.Models;
 using Microsoft.Extensions.Caching.Memory;
+using WebAPIforTest.Interfaces;
 
 namespace WebAPIforTest
 {
-    public class DataProvider
+    public class DataProvider : IDataProvider
     {
-        ApplicationContext db;
-        IMemoryCache cache;
+        private ApplicationContext db;
+        private IMemoryCache cache;
         public DataProvider(ApplicationContext context, IMemoryCache memoryCache)
         {
             db = context;

@@ -1,5 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
+using WebAPIforTest.Interfaces;
+using WebAPIforTest.Services;
 
 namespace WebAPIforTest
 {
@@ -13,6 +15,8 @@ namespace WebAPIforTest
 
             string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+
+            builder.Services.AddTransient<IDataProvider, DataProvider>();
 
             builder.Services.AddMvc();
 

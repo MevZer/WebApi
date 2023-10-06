@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using WebAPIforTest.Interfaces;
 using WebAPIforTest.Models;
 
 namespace WebAPIforTest.Controllers
@@ -8,11 +9,11 @@ namespace WebAPIforTest.Controllers
     [Route("api/[controller]")]
     public class DataController : Controller
     {
-        private DataProvider dataProvider;
+        private IDataProvider dataProvider;
 
-        public DataController(ApplicationContext context, IMemoryCache memoryCache)
+        public DataController(IDataProvider dataProvider)
         {
-            dataProvider = new DataProvider(context, memoryCache);
+            this.dataProvider = dataProvider;
         }
 
         [HttpGet]

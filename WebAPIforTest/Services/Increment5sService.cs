@@ -1,8 +1,7 @@
 ﻿using System.Threading;
 using Microsoft.EntityFrameworkCore;
-using WebAPIforTest;
 
-namespace WebAPIforTest
+namespace WebAPIforTest.Services
 {
     public class Increment5sService : BackgroundService
     {
