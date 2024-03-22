@@ -15,6 +15,7 @@ namespace WebAPIforTest
         public VaultOptions _config;
         private IVaultClient _client;
 
+
         public VaultConfigurationProvider(VaultOptions config)
         {
             _config = config;
@@ -28,7 +29,11 @@ namespace WebAPIforTest
 
         public override void Load()
         {
-            LoadAsync().Wait();
+            try
+            {
+                LoadAsync().Wait();
+            }
+            catch ( Exception ex ) { }
         }
 
         public async Task LoadAsync()

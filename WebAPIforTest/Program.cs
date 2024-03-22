@@ -7,6 +7,7 @@ using Vault;
 using Vault.Models;
 using WebAPIforTest.Interfaces;
 using WebAPIforTest.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 
 namespace WebAPIforTest
@@ -33,18 +34,20 @@ namespace WebAPIforTest
                 });
             }
 
-            var dbBuilder = new NpgsqlConnectionStringBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-            if (builder.Configuration["database:Username"] != null)
+            switch (builder.Configuration.GetSection("SELECT_AUTHENTICATION").Value)
             {
-                dbBuilder.Username = builder.Configuration["database:Username"];
-                dbBuilder.Password = builder.Configuration["database:Password"];
-
-                builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"] = dbBuilder.ConnectionString;
+                case "vault":
+                    AuthExtensions.AuthDbVault(builder);
+                    break;
+                case "db":
+                    AuthExtensions.AuthDb(builder);
+                    break;
+                case "default":
+                    AuthExtensions.AuthDefault(builder);
+                    break;
             }
 
-            builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-            
             builder.Services.AddTransient<IDataProvider, DataProvider>();
 
             builder.Services.AddMvc();
